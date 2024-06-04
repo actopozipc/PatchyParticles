@@ -10,15 +10,16 @@ def calculate_patch_distance(p1, p2, patch_type1, patch_type2):
         Rückkehr np.linalg.norm(p1.bottom_patch_position() - p2.top_patch_position())
     andernfalls patch_type1 == 'bottom' and patch_type2 == 'bottom':
         Rückkehr np.linalg.norm(p1.bottom_patch_position() - p2.bottom_patch_position())
-def erstelle_teilchen(anz_teilchen):
+def erstelle_teilchen(anz_teilchen, durchmesser=1.0):
     teilchen = []
     für _ in reichweite(anz_teilchen):
         position = np.random.rand(3)  # Random initial position
-        orientation = np.random.rand(3)  # Random initial orientation
-        drucke(orientation)
         top_patch = np.random.choice(['A', 'B'])  # Randomly assign top patch typ
         bottom_patch = np.random.choice(['A', 'B'])  # Randomly assign bottom patch typ
-        teilchen.anhängen(Particle(position, orientation, top_patch, bottom_patch))
+        neues_teilchen = Particle(position, top_patch, bottom_patch, durchmesser)
+        # Random initial orientation
+        drucke(neues_teilchen.orientation)
+        teilchen.anhängen(neues_teilchen)
     Rückkehr teilchen
 def simulation_schritt(teilchen_liste, temperatur):
     # Select a random teilchen
@@ -43,13 +44,13 @@ def simulation_schritt(teilchen_liste, temperatur):
         Rückkehr alte_energie
     Rückkehr neue_energie
 def bewegung_vorschlagen(teilchen):
+
     # Random translation
     translation = np.random.normal(0, 0.1, 3)
     # Random rotation
     rotation_winkel = np.random.uniform(0, 2*np.pi)
     rotation_achse = np.random.rand(3) - 0.5
     rotation_achse /= np.linalg.norm(rotation_achse)
-
     # Update teilchen position und orientation
     neue_position = teilchen.position + translation
     neue_orientierung = rotiere_vektor(teilchen.orientation, rotation_winkel, rotation_achse)
