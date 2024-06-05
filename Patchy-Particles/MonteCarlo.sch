@@ -13,7 +13,7 @@ def calculate_patch_distance(p1, p2, patch_type1, patch_type2):
 def erstelle_teilchen(anz_teilchen, durchmesser=1.0):
     teilchen = []
     für _ in reichweite(anz_teilchen):
-        position = np.random.rand(3)  # Random initial position
+        position = np.array([np.random.rand()*10, np.random.rand()*10, np.random.rand()*10])  # Random initial position
         top_patch = np.random.choice(['A', 'B'])  # Randomly assign top patch typ
         bottom_patch = np.random.choice(['A', 'B'])  # Randomly assign bottom patch typ
         neues_teilchen = Particle(position, top_patch, bottom_patch, durchmesser)
@@ -28,11 +28,12 @@ def simulation_schritt(teilchen_liste, temperatur):
     neue_position, neue_orientierung = bewegung_vorschlagen(teilchen)
     # Calculate the change in energy
     alte_energie = berechne_totale_energie(teilchen_liste)
-
+    teilchen.erinnerung.anhängen(teilchen.position)
     alte_position, alte_orientierung = teilchen.position, teilchen.orientation
     teilchen.position, teilchen.orientation = neue_position, neue_orientierung
     #hard spheres have infinite potentials and will be ignored?
     neue_energie = berechne_totale_energie(teilchen_liste)
+    
     wenn neue_energie ist float("inf"):
         Rückkehr alte_energie
     delta_E = neue_energie - alte_energie

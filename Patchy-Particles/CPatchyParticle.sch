@@ -2,12 +2,15 @@ importiere numpy als np
 
 Klasse Particle:
     def __init__(selbst, position, top_patch, bottom_patch, durchmesser=1.0):
-        selbst.position = position  # Position in 3D space
-        selbst.orientation = np.array([durchmesser, np.random.rand(), 0])  # Orientation vector
+        selbst.position = position  # Position in 3D spaces
+        #in order to get the patch position always ON the sphere, it is 
+        #center + v/|v| * durchmesser for a random vector v
+        r = np.array([np.random.rand(), np.random.rand(), 0]) 
+        selbst.orientation = r / np.linalg.norm(r) * durchmesser # Orientation vector
         selbst.durchmesser = durchmesser #stored here to calculate the position of A,B
         selbst.top_patch = top_patch  # Type of the top patch (A oder B)
         selbst.bottom_patch = bottom_patch  # Type of the bottom patch (A oder B)
-
+        selbst.erinnerung = [] #to store positions
     def calculate_distance(selbst, p2):
         p1 = selbst
         Rückkehr np.linalg.norm(p1.position - p2.position)
