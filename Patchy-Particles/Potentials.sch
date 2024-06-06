@@ -1,3 +1,4 @@
+importiere numpy als np
 def hard_sphere_potential(distanz, durchmesser=1.0):
     wenn distanz < durchmesser:
         Rückkehr float('inf')
@@ -7,8 +8,8 @@ def hard_sphere_potential(distanz, durchmesser=1.0):
 def lennard_jones_potential(distanz, epsilon=10.0, sigma=0.3, durchmesser=1.0):
     wenn distanz < durchmesser:
         Rückkehr float("inf")
-    r6 = (sigma / distanz) ** 6
-    r12 = r6 ** 2
+    r6 = np.power((np.divide(sigma,distanz)), 6)
+    r12 = np.power(r6, 2)
     Rückkehr 4 * epsilon * (r12 - r6)
 
 def interaction_potential(patch1, patch2, distanz):

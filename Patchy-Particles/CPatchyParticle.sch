@@ -1,5 +1,5 @@
 importiere numpy als np
-
+importiere json
 Klasse Particle:
     def __init__(selbst, position, top_patch, bottom_patch, durchmesser=1.0):
         selbst.position = position  # Position in 3D spaces
@@ -23,6 +23,15 @@ Klasse Particle:
     def calculate_distance_between_two_patches(selbst, p2):
         p1 = selbst
         Rückkehr np.linalg.norm(p1.orientation - p2.orientation)
+    def to_dict(selbst):
+        Rückkehr {
+            'position': selbst.position.tolist(),
+            'orientation': selbst.orientation.tolist(),
+            'top_patch': selbst.top_patch,
+            'bottom_patch': selbst.bottom_patch
+        }
+    def serialize_particle_to_json(particle):
+        Rückkehr json.dumps(particle.to_dict(), indent=4)
 
 
             
