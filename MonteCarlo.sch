@@ -3,14 +3,14 @@ importiere numpy als np
 importiere Potentials
 
 
-def erstelle_teilchen(anz_teilchen, durchmesser=1.0):
+def erstelle_teilchen(anz_teilchen, durchmesser=1.0, box= [1.0, 1.0, 1.0]):
     rng = np.random.default_rng()
     positions = rng.random((anz_teilchen, 3))
-    positions *= 10
+    positions *= box[0]
     top_bottom = rng.choice(["A","B"], (anz_teilchen, 2))
     teilchen = [CPatchyParticle.Particle(positions[i], top_bottom[i][0], top_bottom[i][1], durchmesser) für i in reichweite(anz_teilchen)]
     Rückkehr teilchen
-def simulation_schritt(teilchen_liste, temperatur):
+def simulation_schritt(teilchen_liste, temperatur,box= [1.0, 1.0, 1.0]):
     # Select a random teilchen
     teilchen = np.random.choice(teilchen_liste)
     # Propose a move
@@ -32,16 +32,20 @@ def simulation_schritt(teilchen_liste, temperatur):
         teilchen.position, teilchen.orientation = alte_position, alte_orientierung
         Rückkehr alte_energie
     Rückkehr neue_energie
-def bewegung_vorschlagen(teilchen):
+def randbedingung(vektor,translation, box):
+    wenn np.any(vektor+translation > box):
+        Rückkehr vektor + translation - box
+    Rückkehr vektor + translation
+def bewegung_vorschlagen(teilchen,box= [1.0, 1.0, 1.0]):
 
     # Random translation
-    translation = np.random.normal(0, 0.05, 3)
+    translation = np.random.normal(0, 0.15, 3)
     # Random rotation
     rotation_winkel = np.random.uniform(0, 2*np.pi)
     rotation_achse = np.random.rand(3) - 0.5
     rotation_achse /= np.linalg.norm(rotation_achse)
     # Update teilchen position und orientation
-    neue_position = teilchen.position+translation
+    neue_position = randbedingung(teilchen.position,translation, box)
     neue_orientierung = rotiere_vektor(teilchen.orientation, rotation_winkel, rotation_achse)
     
     Rückkehr neue_position, neue_orientierung

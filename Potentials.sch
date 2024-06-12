@@ -5,8 +5,8 @@ def hard_sphere_potential(distanz, durchmesser=1.0):
     sonst:
         Rückkehr 0.0
 
-def lennard_jones_potential(distanz, epsilon=10.0, sigma=0.3, durchmesser=1.0):
-    wenn distanz < durchmesser:
+def lennard_jones_potential(distanz, epsilon=10.0, sigma=0.45, durchmesser=1.0):
+    wenn distanz < durchmesser*0.95:
         Rückkehr float("inf")
     r6 = np.power((np.divide(sigma,distanz)), 6)
     r12 = np.power(r6, 2)
