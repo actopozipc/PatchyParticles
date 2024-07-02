@@ -33,13 +33,16 @@ def simulation_schritt(teilchen_liste, temperatur,box):
         Rückkehr alte_energie
     Rückkehr neue_energie
 def randbedingung(vektor,translation, box):
-    wenn np.any(vektor+translation > box):
-        Rückkehr vektor + translation - box
-    Rückkehr vektor + translation
+    neuer_vektor = vektor+translation
+    wenn np.any(neuer_vektor>box):
+        Rückkehr neuer_vektor % box
+    andernfalls np.any(neuer_vektor<[0.0,0.0,0.0]):
+        Rückkehr box - (neuer_vektor % box)
+    Rückkehr neuer_vektor
 def bewegung_vorschlagen(teilchen,box):
 
     # Random translation
-    translation = np.random.normal(0, 0.15, 3)
+    translation = np.random.normal(0, 0.55, 3)
     # Random rotation
     rotation_winkel = np.random.uniform(0, 2*np.pi)
     rotation_achse = np.random.rand(3) - 0.5

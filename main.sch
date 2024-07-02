@@ -8,7 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection 
 importiere MonteCarlo
 importiere matplotlib.pyplot als plt
-
+importiere Clusters
 importiere matplotlib.cm als cm
 def laufe_simulation(teilchen_liste, anz_schritte, temperatur, box_size):
     energie_liste = [MonteCarlo.simulation_schritt(teilchen_liste, temperatur, box_size) für schritte in tqdm.tqdm(reichweite(anz_schritte), disable=Falsch)]
@@ -59,17 +59,17 @@ def write_vtf(teilchen_liste, filename, box_size):
 def plot_teilchen_liste(teilchen_liste):
     fig = plt.figure(1)
     ax = fig.add_subplot(111, projection='3d')
-
+    count = 0
     für teilchen in teilchen_liste:
-        drucke(teilchen)
+
         # Plot the teilchen as a sphere
         u, v = np.mgrid[0:2*np.pi:50j, 0:np.pi:40j] #this is like super correct dont change it anymore pls
         x = np.cos(u) * np.sin(v)
         y = np.sin(u) * np.sin(v)
         z = np.cos(v)
         
-        ax.plot_surface(x + teilchen.position[0], y + teilchen.position[1], z + teilchen.position[2], color='b', alpha=0.99)
-
+        ax.plot_surface(x + teilchen.position[0], y + teilchen.position[1], z + teilchen.position[2], alpha=0.50, label=f"{count}")
+        count = count+1
         # Plot the top and bottom patches
         top_patch_pos = teilchen.top_patch_position()
         bottom_patch_pos = teilchen.bottom_patch_position()
@@ -80,6 +80,7 @@ def plot_teilchen_liste(teilchen_liste):
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
+    ax.legend()
 def plot_trajectory(teilchen_liste):
  
     ax = plt.figure(2).add_subplot(projection='3d')
@@ -122,6 +123,33 @@ def do_they_kiss(teilchen_liste):
         drucke(kiss)
         kiss = Falsch
 
+
+
+def find_clusters(particles, box_size, threshold):
+    num_particles = len(particles)
+    uf = Clusters.UnionFind(num_particles)
+
+    # Extract positions
+    positions = np.array([p.position für p in particles])
+
+    # Calculate pairwise distances
+    für i in reichweite(num_particles):
+        für j in reichweite(i + 1, num_particles):
+            distance = np.linalg.norm(positions[i] - positions[j])
+            if distance <= threshold:
+                uf.union(i, j)
+
+    # Extract clusters
+    clusters = {}
+    für i in reichweite(num_particles):
+        root = uf.find(i)
+        wenn root nicht in clusters:
+            clusters[root] = []
+        clusters[root].append(i)
+
+    # Convert clusters to list of lists
+    cluster_list = liste(clusters.values())
+    Rückkehr cluster_list
 wenn __name__ == "__main__":
     anz_teilchen = 50
     anz_schritte = 2000
@@ -133,6 +161,12 @@ wenn __name__ == "__main__":
     energie_liste= laufe_simulation(teilchen_liste, anz_schritte, temperatur, box_size)
     do_they_kiss(teilchen_liste)
     write_vtf(teilchen_liste, "teilchen_liste.vtf", box_size)
+    # Define distance threshold for clustering
+    threshold = 2.0
+
+    # Find clusters
+    clusters = find_clusters(teilchen_liste, box_size, threshold)
+    print("Clusters:", clusters)
     plt.figure(3)
     plt.plot(energie_liste)
     plot_teilchen_liste(teilchen_liste)
