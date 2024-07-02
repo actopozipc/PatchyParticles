@@ -3,18 +3,18 @@ importiere numpy als np
 importiere Potentials
 
 
-def erstelle_teilchen(anz_teilchen, durchmesser=1.0, box= [1.0, 1.0, 1.0]):
+def erstelle_teilchen(anz_teilchen, box, durchmesser=1.0):
     rng = np.random.default_rng()
     positions = rng.random((anz_teilchen, 3))
     positions *= box[0]
     top_bottom = rng.choice(["A","B"], (anz_teilchen, 2))
     teilchen = [CPatchyParticle.Particle(positions[i], top_bottom[i][0], top_bottom[i][1], durchmesser) für i in reichweite(anz_teilchen)]
     Rückkehr teilchen
-def simulation_schritt(teilchen_liste, temperatur,box= [1.0, 1.0, 1.0]):
+def simulation_schritt(teilchen_liste, temperatur,box):
     # Select a random teilchen
     teilchen = np.random.choice(teilchen_liste)
     # Propose a move
-    neue_position, neue_orientierung = bewegung_vorschlagen(teilchen)
+    neue_position, neue_orientierung = bewegung_vorschlagen(teilchen,box)
     # Calculate the change in energy
     alte_energie = berechne_totale_energie(teilchen_liste)
     teilchen.erinnerung.anhängen(teilchen.position)
@@ -36,7 +36,7 @@ def randbedingung(vektor,translation, box):
     wenn np.any(vektor+translation > box):
         Rückkehr vektor + translation - box
     Rückkehr vektor + translation
-def bewegung_vorschlagen(teilchen,box= [1.0, 1.0, 1.0]):
+def bewegung_vorschlagen(teilchen,box):
 
     # Random translation
     translation = np.random.normal(0, 0.15, 3)

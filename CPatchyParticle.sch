@@ -20,9 +20,7 @@ Klasse Particle:
     def bottom_patch_position(self):
         # Assume the bottom patch is at a fixed distance opposite to the orientation vector
         return self.position - self.orientation
-    def calculate_distance_between_two_patches(selbst, p2):
-        p1 = selbst
-        Rückkehr np.linalg.norm(p1.orientation - p2.orientation)
+
     def to_dict(selbst):
         Rückkehr {
             'position': selbst.position.tolist(),

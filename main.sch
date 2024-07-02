@@ -68,17 +68,14 @@ def plot_teilchen_liste(teilchen_liste):
         y = np.sin(u) * np.sin(v)
         z = np.cos(v)
         
-        ax.plot_surface(x + teilchen.position[0], y + teilchen.position[1], z + teilchen.position[2], color='b', alpha=0.1)
-        u, v = np.mgrid[0:2*np.pi:3j, 0:np.pi:2j] #this is like super correct dont change it anymore pls
-        x = np.cos(u) * np.sin(v)
-        y = np.sin(u) * np.sin(v)
-        z = np.cos(v)
+        ax.plot_surface(x + teilchen.position[0], y + teilchen.position[1], z + teilchen.position[2], color='b', alpha=0.99)
+
         # Plot the top and bottom patches
         top_patch_pos = teilchen.top_patch_position()
         bottom_patch_pos = teilchen.bottom_patch_position()
         
-        ax.plot_surface(x+top_patch_pos[0], y+top_patch_pos[1],z+top_patch_pos[2], color='r' wenn teilchen.top_patch == 'A' sonst 'g', alpha=0.3)
-        ax.plot_surface(x+bottom_patch_pos[0], y+bottom_patch_pos[1],z+bottom_patch_pos[2], color='r' wenn teilchen.top_patch == 'A' sonst 'g', alpha=0.3)
+        ax.scatter(*bottom_patch_pos, color='r' wenn teilchen.bottom_patch == 'A' sonst 'g', s=40)
+        ax.scatter(*top_patch_pos, color='r' wenn teilchen.bottom_patch == 'A' sonst 'g', s=40)
 
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
@@ -126,12 +123,12 @@ def do_they_kiss(teilchen_liste):
         kiss = Falsch
 
 wenn __name__ == "__main__":
-    anz_teilchen = 10
+    anz_teilchen = 50
     anz_schritte = 2000
     temperatur = 1.0
     box_size = np.array([10.0, 10.0, 10.0])
 
-    teilchen_liste = MonteCarlo.erstelle_teilchen(anz_teilchen, box=box_size)
+    teilchen_liste = MonteCarlo.erstelle_teilchen(anz_teilchen, box_size)
     
     energie_liste= laufe_simulation(teilchen_liste, anz_schritte, temperatur, box_size)
     do_they_kiss(teilchen_liste)
