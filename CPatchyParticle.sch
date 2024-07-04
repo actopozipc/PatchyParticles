@@ -1,7 +1,7 @@
 importiere numpy als np
 importiere json
 Klasse Particle:
-    def __init__(selbst, position, top_patch, bottom_patch, durchmesser=1.0):
+    def __init__(selbst, position, top_patch, bottom_patch, durchmesser=2.0):
         selbst.position = position  # Position in 3D spaces
         #in order to get the patch position always ON the sphere, it is 
         #center + v/|v| * durchmesser for a random vector v

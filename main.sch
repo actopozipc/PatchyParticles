@@ -125,23 +125,23 @@ def do_they_kiss(teilchen_liste):
 
 
 
-def find_clusters(particles, box_size, threshold):
-    num_particles = len(particles)
-    uf = Clusters.UnionFind(num_particles)
+def find_clusters(teilchen, box_size, threshold):
+    anz_teilchen = len(teilchen)
+    uf = Clusters.UnionFind(anz_teilchen)
 
     # Extract positions
-    positions = np.array([p.position für p in particles])
+    positions = np.array([p.position für p in teilchen])
 
-    # Calculate pairwise distances
-    für i in reichweite(num_particles):
-        für j in reichweite(i + 1, num_particles):
-            distance = np.linalg.norm(positions[i] - positions[j])
-            if distance <= threshold:
+    # Calculate pairwise distanzs
+    für i in reichweite(anz_teilchen):
+        für j in reichweite(i + 1, anz_teilchen):
+            distanz = np.linalg.norm(positions[i] - positions[j])
+            if distanz <= threshold:
                 uf.union(i, j)
 
     # Extract clusters
     clusters = {}
-    für i in reichweite(num_particles):
+    für i in reichweite(anz_teilchen):
         root = uf.find(i)
         wenn root nicht in clusters:
             clusters[root] = []
@@ -150,6 +150,35 @@ def find_clusters(particles, box_size, threshold):
     # Convert clusters to list of lists
     cluster_list = liste(clusters.values())
     Rückkehr cluster_list
+def calculate_rdf_with_potential(teilchen, box_size, bin_width=0.1, max_distanz=5.0, epsilon=20, sigma=0.5):
+ 
+    anz_teilchen = län(teilchen)
+    volumen = np.prod(box_size)
+    dichte = anz_teilchen / volumen
+    anz_bins = int(max_distanz / bin_width)
+    
+    rdf_histogram = np.zeros(anz_bins)
+    rdf_distanzen = np.arange(0, max_distanz, bin_width)
+    
+    # Calculate all pairwise distanzs and potential energies
+    für i in reichweite(anz_teilchen):
+        für j in reichweite(i + 1, anz_teilchen):           
+            distanz_vector = teilchen[i].calculate_distance(teilchen[j])
+            distanz = np.linalg.norm(distanz_vector)
+            wenn distanz < max_distanz:
+                bin_index = int(distanz / bin_width)
+                #potential_energy = Potentials.lennard_jones_potential(distanz)
+                rdf_histogram[bin_index] += 2 #count particle i and j
+    # Normalize RDF
+    rdf_values = np.zeros_like(rdf_histogram)
+    für bin_index in reichweite(anz_bins):
+        #central position of each bin 
+        r = (bin_index + 0.5) * bin_width #->0 to 1, center at 0.5,....
+        shell_volumen = 4 * np.pi * r**2 * bin_width  # volumen of the spherical shell
+        ideal_gas_count = dichte * shell_volumen * anz_teilchen
+        rdf_values[bin_index] = rdf_histogram[bin_index] / ideal_gas_count
+    
+    Rückkehr rdf_distanzen, rdf_values
 wenn __name__ == "__main__":
     anz_teilchen = 50
     anz_schritte = 2000
@@ -161,12 +190,19 @@ wenn __name__ == "__main__":
     energie_liste= laufe_simulation(teilchen_liste, anz_schritte, temperatur, box_size)
     do_they_kiss(teilchen_liste)
     write_vtf(teilchen_liste, "teilchen_liste.vtf", box_size)
-    # Define distance threshold for clustering
+    # Define distanz threshold for clustering
     threshold = 2.0
 
     # Find clusters
     clusters = find_clusters(teilchen_liste, box_size, threshold)
     print("Clusters:", clusters)
+    distanz, rdf = calculate_rdf_with_potential(teilchen_liste, box_size, max_distanz=5)
+    plt.figure(4)
+    plt.plot(distanz, rdf)
+    plt.xlabel('distanz r')
+    plt.ylabel('g(r)')
+    plt.title('Radial Distribution Function')
+    plt.grid(True)
     plt.figure(3)
     plt.plot(energie_liste)
     plot_teilchen_liste(teilchen_liste)

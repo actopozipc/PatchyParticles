@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patchy Particles</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/impress.js/css/impress-demo.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            display: flex;
+        }
+
+        #impress-container {
+            height: 100%;
+            overflow: hidden;
+            margin-left: -20%;
+        }
+
+        #threejs-container {
+            width: 20%;
+            height: 100%;
+            float: left;
+            overflow: hidden;
+        }
+
+        .step {
+            border-radius: 10px;
+           
+            max-width: 90%;
+            margin: auto;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            font-size:2vw;
+            white-space: nowrap;
+        }
+ 
+
+#right {
+ margin-right: -180px;
+}
+
+
+@keyframes fadeinout {
+    0%,50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.dot {
+    margin: 15px;
+  background-color: white;
+    justify-content: start;
+    margin-right: 390px; /*damit das with Monte Carlo gleichgestellt ist mit der überschrift*/
+    -webkit-animation: fadeinout 4s linear forwards;
+    animation: fadeinout 4s linear forwards;
+}
+img {
+    height:30vw;
+}
+/* just to highlight divs for example*/
+#left { background-color: pink; }
+#right { background-color: lightgreen;}
+    </style>
+</head>
+<body>
+    <div id="threejs-container"></div>
+    <div id="impress-container" >
+        <div id="impress" >
+            <div id="title" class="step" data-x="0" data-y="0" data-scale="1" >
+                <div id="left">  <h1>Patchy</h1>  </div>
+            
+
+                    <span class="dot"> 
+                        <p style="white-space: nowrap; font-size: large;     margin: 20px;">with Monte Carlo</p>
+                    </span>
+          
+               
+                <div id="right"> <h1>Particles</h1> </div>
+                
+            </div>
+            <div class="step" data-x="1000" data-y="1000" data-z="00" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+            
+                <div >
+                    Patchy particles consist of <br>
+                    1.
+
+                    A repulsive core: Ensures particles do not overlap.<br>
+                   2. Discrete, highly directional interaction sites (patches): <br>These are short-ranged attractive spots on the particle's surface.
+            
+                </div>
+               
+          
+
+            </div>
+            <div class="step" data-x="1000" data-y="2000" data-z="00" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+            
+                <img src="patches.png" style="height:30vw"> </img>
+               
+          
+
+            </div>
+            <div class="step" data-x="1000" data-y="3000" data-z="00" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+                <div >
+                   There are endless possibilities for patchy particles. <br>
+                   We will focus on <br>
+                    1. 2 Patches A and B <br>
+                    2. Lennard Jones on same patches 
+                </div>
+                <p>
+                    $$
+                    V_{\mathrm{LJ}}(r)=4 \varepsilon\left[\left(\frac{\sigma}{r}\right)^{12}-\left(\frac{\sigma}{r}\right)^6\right]
+                    $$
+                  </p>
+          
+
+            </div>
+            <div class="step" data-x="1000" data-y="4000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+                <img src="potentials-code.png"></img>
+
+            </div>
+            <div class="step" data-x="3500" data-y="4000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+              <p>Several ways to do Monte Carlo</p>
+              <ol style="list-style-type: dot;">
+                <li>
+                    AVB-B and AVB-U
+                </li>
+                <li>
+                    Virtual moves
+                </li>
+                <li>
+                    Move single particles
+                </li>
+              </ol>
+      
+            </div>
+            <div class="step" data-x="1000" data-y="5000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+                <img src="montecarlo-code.png"></img>
+
+            </div>
+            <div class="step" data-x="1000" data-y="7000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                Rototranslation <br>
+                <p>1. Move in space</p>
+                <p>2. Rotate:<br>$$
+                    \mathbf{v}_{\text {rot }}=\mathbf{v} \cos \theta+(\mathbf{k} \times \mathbf{v}) \sin \theta+\mathbf{k}(\mathbf{k} \cdot \mathbf{v})(1-\cos \theta) .
+                    $$
+                    </p>
+
+            </div>
+            <div class="step" data-x="1000" data-y="8000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+                <img src="proposemove-code.png"></img>
+
+            </div>
+            <div class="step" data-x="1000" data-y="9000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+                <img src="class-code.png"></img>
+
+            </div>
+            <div class="step" data-x="1000" data-y="10000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+                <img src="optimization-code.png"></img>
+
+            </div>
+            <div class="step" data-x="1000" data-y="11000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                <img src="cluster-text-plot.png" style="width: 50vw;"> </img>
+                <img src="cluster-plot.png" style="height: 40vw;"></img>
+
+            </div>
+            <div class="step" data-x="1000" data-y="12000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex;" >
+                Disjoint-set data structure <br>
+                <ul style="list-style: disc; text-align: left;">
+                    <li>Basic elements</li>
+                        <ul style="list-style-type: circle;">
+                        <li>Parents: Every element starts as its own parent</li>
+                        <li>Rank: Depths of the tree, originally everything is 0</li>
+                        </ul>
+                    
+                    <li>
+                        Recursion
+                        <ul style="list-style-type: circle;">
+                           <li>Every parent points to the root</li>
+                           <li>Different roots get merged</li> 
+                        </ul>
+                    </li>
+                </ul>
+                <img src="union.png"/>
+            </div>
+            <div class="step" data-x="2000" data-y="13000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+                <img src="clusters-code.png"></img>
+
+            </div>
+            <div class="step" data-x="1000" data-y="14000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+                <img src="path-plot.png"></img>
+
+            </div>
+            <div class="step" data-x="1000" data-y="15000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex; justify-content: center;" >
+                
+                <img src="energy-plot.png"></img>
+
+            </div>
+            <div class="step" data-x="1000" data-y="16000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex;" >
+                Radial distribution function<br>
+                <p>3D: $$\rho \cdot 4 \pi r^2 dr$$</p>
+                <img src="rfj-lh.png"/>
+            </div>
+            <div class="step" data-x="1000" data-y="17000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex;" >
+                <p>$$\rho \cdot 4 \pi r^2 dr$$</p>
+                <img src="rdf-code.png"/>
+            </div>
+            <div class="step" data-x="1000" data-y="18000" data-z="0" data-scale="1" style=" margin-left: 200px; display: flex;" >
+                <img src="rdf-plot.png"/>
+            </div>
+            <!-- Add more steps as needed -->
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/impress.js/js/impress.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js" ></script>
+
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <script>
+        // Initialize Impress.js
+        impress().init();
+
+        // Three.js variables
+        let scene, camera, renderer, particles = [];
+
+        // Number of patchy particles
+        const numParticles = 50;
+
+        function initThreeJS() {
+            // Scene
+            scene = new THREE.Scene();
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 10;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth / 2, window.innerHeight); // Adjust for half screen
+            renderer.setClearColor(0xd2d2d2); // Set background to white
+            document.getElementById('threejs-container').appendChild(renderer.domElement);
+            
+            // Add multiple patchy particles to the scene
+            for (let i = 0; i < numParticles; i++) {
+                const particle = createPatchyParticle();
+                particle.position.set(
+                    (Math.random() - 0.5) * 20,
+                    (Math.random() - 0.5) * 20,
+                    (Math.random() - 0.5) * 20
+                );
+                particle.userData.velocity = new THREE.Vector3(
+                    (Math.random() - 0.5) * 0.01,
+                    (Math.random() - 0.5) * 0.01,
+                    (Math.random() - 0.5) * 0.01
+                );
+                scene.add(particle);
+                particles.push(particle);
+            }
+
+            // Adjust camera aspect ratio for half screen
+            camera.aspect = (window.innerWidth / 2) / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            // Animation Loop
+            animate();
+        }
+
+        function createPatchyParticle() {
+    const geometry = new THREE.SphereGeometry(1, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false });
+    const particle = new THREE.Mesh(geometry, material);
+
+    // Adding patches as small spheres
+    const patchGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+    const patchMaterialA = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Red patch
+    const patchMaterialB = new THREE.MeshBasicMaterial({ color: 0x90ee90}); // Blue patch
+
+    const patchA = new THREE.Mesh(patchGeometry, patchMaterialA);
+    patchA.position.set(0, 1, 0); // Position patch on the top of the sphere
+    particle.add(patchA);
+
+    const patchB = new THREE.Mesh(patchGeometry, patchMaterialB);
+    patchB.position.set(0, -1, 0); // Position patch on the bottom of the sphere
+    particle.add(patchB);
+
+    // Apply random rotations only around the Y axis
+    particle.rotation.set(
+        0,                          // No rotation around X axis
+        0, // Random rotation around Y axis
+        Math.random() * Math.PI * 2                           // No rotation around Z axis
+    );
+
+    return particle;
+}
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Update particles' positions
+            particles.forEach(particle => {
+                particle.position.add(particle.userData.velocity);
+
+                // Simple boundary conditions to keep particles within the view
+                if (particle.position.x > 10 || particle.position.x < -10) particle.userData.velocity.x *= -1;
+                if (particle.position.y > 10 || particle.position.y < -10) particle.userData.velocity.y *= -1;
+                if (particle.position.z > 10 || particle.position.z < -10) particle.userData.velocity.z *= -1;
+            });
+
+            // Render the scene
+            renderer.render(scene, camera);
+        }
+
+        // Initialize Three.js when the DOM is ready
+        window.onload = initThreeJS;
+
+        // Handle window resize to adjust both Three.js and Impress.js sections
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth / 2, window.innerHeight);
+            camera.aspect = (window.innerWidth / 2) / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+    </script>
+</body>
+</html>
